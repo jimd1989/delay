@@ -2,6 +2,7 @@
 #include <poll.h>
 #include <unistd.h>
 
+#include "../audio/audio.h"
 #include "repl.h"
 
 static void readLine(char *);
@@ -16,10 +17,12 @@ static void readLine(char *s) {
 }
 
 void repl(void) {
+  Audio a = audio();
   char line[REPL_LINE_SIZE] = {0};
   struct pollfd pfds[1] = {{0}};
   pfds[0].fd = STDIN_FILENO;
   pfds[0].events = POLLIN;
+  startAudio(&a);
   warnx("Delay started; input commands. ^c exits.");
   while (poll(pfds, 1, 0) != -1) {
     if (pfds[0].revents & POLLIN) {
@@ -27,4 +30,5 @@ void repl(void) {
     }
     /* Audio here */
   }
+  stopAudio(&a);
 }
