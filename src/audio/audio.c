@@ -1,12 +1,28 @@
 #include <err.h>
 #include <sndio.h>
+#include <unistd.h>
 
 #include "audio.h"
 #include "sndio.h"
 
+static AudioSettings audioSettings(SioPar);
+
+static AudioSettings audioSettings(SioPar p) {
+  size_t frames = SNDIO_BUF_SIZE;
+  AudioSettings as = {0};
+  frames = frames + p.round - 1;
+  frames -= frames % p.round;
+  as.bits = p.bits;
+  as.chan = p.rchan;
+  as.rate = p.rate;
+  as.bufSizeFrames = frames;
+  return as;
+}
+
 Audio audio(void) {
   Audio a = {{0}};
   a.sndio = sndio();
+  a.settings = audioSettings(a.sndio.parameters);
   return a;
 }
 
