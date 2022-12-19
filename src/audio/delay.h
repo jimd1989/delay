@@ -9,6 +9,7 @@ typedef struct DelayBuffer {
   size_t          phase;
   size_t          size;
   float           feedback;
+  float           pan;
   float           volume;
   float         * data;
 } DelayBuffer;

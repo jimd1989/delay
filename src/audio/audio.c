@@ -4,6 +4,7 @@
 
 #include "audio.h"
 #include "audio_settings.h"
+#include "delay.h"
 #include "sndio.h"
 
 static AudioSettings audioSettings(SioPar);
@@ -20,10 +21,11 @@ static AudioSettings audioSettings(SioPar p) {
   return as;
 }
 
-Audio audio(void) {
+Audio audio(Parameters p) {
   Audio a = {{0}};
   a.sndio = sndio();
   a.settings = audioSettings(a.sndio.parameters);
+  a.delay = delay(a.settings, p.maxDelay);
   return a;
 }
 

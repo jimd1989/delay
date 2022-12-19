@@ -1,6 +1,8 @@
+#include "input/parameters.h"
 #include "input/repl.h"
 
 int main(void) {
-  repl();
+  Parameters p = parameters();
+  repl(p);
   return 0;
 }

@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include "../audio/audio.h"
+#include "parameters.h"
 #include "repl.h"
 
 static void readLine(char *);
@@ -16,8 +17,8 @@ static void readLine(char *s) {
   warnx("Input received.");
 }
 
-void repl(void) {
-  Audio a = audio();
+void repl(Parameters p) {
+  Audio a = audio(p);
   char line[REPL_LINE_SIZE] = {0};
   struct pollfd pfds[1] = {{0}};
   pfds[0].fd = STDIN_FILENO;
