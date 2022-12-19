@@ -3,12 +3,13 @@
 #include <unistd.h>
 
 #include "audio.h"
+#include "audio_settings.h"
 #include "sndio.h"
 
 static AudioSettings audioSettings(SioPar);
 
 static AudioSettings audioSettings(SioPar p) {
-  size_t frames = SNDIO_BUF_SIZE;
+  size_t frames = p.appbufsz;
   AudioSettings as = {0};
   frames = frames + p.round - 1;
   frames -= frames % p.round;

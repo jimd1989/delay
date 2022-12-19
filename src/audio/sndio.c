@@ -16,6 +16,7 @@ Sndio sndio(void) {
   s.parameters.rchan = SNDIO_RCHAN;
   s.parameters.pchan = SNDIO_PCHAN;
   s.parameters.rate = SNDIO_RATE;
+  s.parameters.appbufsz = SNDIO_BUF_SIZE;
   if (!sio_setpar(s.handle, &s.parameters)) {
     errx(-1, "couldn't apply sndio settings");
   }
