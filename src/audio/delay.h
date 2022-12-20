@@ -11,13 +11,17 @@ typedef struct DelayBuffer {
   float           feedback;
   float           pan;
   float           volume;
+  float           wet;
   float         * data;
 } DelayBuffer;
 
 typedef struct Delay {
-  DelayBuffer     left;
-  DelayBuffer     right;
-  float         * output;
+  float         lSample;
+  float         rSample;
+  DelayBuffer   left;
+  DelayBuffer   right;
 } Delay;
 
 Delay delay(AudioSettings, float);
+void mixDelay(Delay *, float, float);
+void killDelay(Delay);

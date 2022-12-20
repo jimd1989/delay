@@ -29,7 +29,7 @@ void repl(Parameters p) {
     if (pfds[0].revents & POLLIN) {
       readLine(line);
     }
-    /* Audio here */
+    playAudio(&a);
   }
   stopAudio(&a);
 }
