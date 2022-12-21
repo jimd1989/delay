@@ -1,5 +1,6 @@
 #include "delay.h"
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -14,10 +15,10 @@ static DelayBuffer delayBuffer(size_t rate, float seconds, float pan) {
   d.size = (float)rate * seconds;
   d.data = calloc(d.size, sizeof(float));
   d.pan = pan;
-  d.wet = 0.5f;
-  d.delay = 12000;
+  d.wet = 1.0f;
+  d.delay = 1;
   d.volume = 0.1f;
-  d.feedback = 0.6f;
+  d.feedback = 0.0f;
   return d;
 }
 
@@ -54,4 +55,29 @@ void mixDelay(Delay *d, float l, float r) {
 void killDelay(Delay d) {
   free(d.left.data);
   free(d.right.data);
+}
+
+void setDelayTime(Delay *d, size_t rate, bool right, float seconds) {
+  DelayBuffer *db = right ? &d->right : &d->left;
+  db->delay = (float)rate * seconds;
+}
+
+void setFeedback(Delay *d, bool right, float f) {
+  DelayBuffer *db = right ? &d->right : &d->left;
+  db->feedback = f;
+}
+
+void setPan(Delay *d, bool right, float f) {
+  DelayBuffer *db = right ? &d->right : &d->left;
+  db->pan = f;
+}
+
+void setWetDry(Delay *d, bool right, float f) {
+  DelayBuffer *db = right ? &d->right : &d->left;
+  db->wet = f;
+}
+
+void setDelayVolume(Delay *d, bool right, float f) {
+  DelayBuffer *db = right ? &d->right : &d->left;
+  db->volume = f;
 }

@@ -3,18 +3,56 @@
 #include <unistd.h>
 
 #include "../audio/audio.h"
+#include "parse.h"
 #include "parameters.h"
 #include "repl.h"
 
-static void readLine(char *);
+static void eval(Audio *, Parsing *);
+static void readLine(Audio *, Parsing);
 
-static void readLine(char *s) {
+static void eval(Audio *a, Parsing *p) {
+  AudioSettings as = a->settings;
+  Delay *d = &a->delay;
+  switch (p->func) {
+    case F_DELAY_TIME:
+      setDelayTime(d, as.rate, p->right, parseFloat(p->args));
+      break;
+    case F_FEEDBACK:
+      setFeedback(d, p->right, parseBoundFloat(p->args, 1.0f));
+      break;
+    case F_PAN:
+      setPan(d, p->right, parseBoundFloat(p->args, 1.0f));
+      break;
+    case F_WET:
+      setWetDry(d, p->right, parseBoundFloat(p->args, 1.0f));
+      break;
+    case F_VOL:
+      setDelayVolume(d, p->right, parseBoundFloat(p->args, 1.0f));
+      break;
+    case F_RECORD_VOL:
+      setRecordingVol(a, p->right, parseBoundFloat(p->args, 1.0f));
+      break;
+    case F_DELAY_FUNC:
+      warnx("delay func not yet implemented");
+      break;
+    case F_MIX_FUNC:
+      warnx("mix func not yet implemented");
+      break;
+    default:
+      warnx("invalid input %c %s", p->func, p->args);
+  }
+}
+
+static void readLine(Audio *a, Parsing p) {
   size_t n = 0;
-  n = read(STDIN_FILENO, s, REPL_LINE_SIZE);
-  if (*s == '\n' || n < 1) {
+  n = read(STDIN_FILENO, p.remaining, REPL_LINE_SIZE);
+  if (*p.remaining == '\n' || n < 1) {
     return;
   }
-  warnx("Input received.");
+  while (!isEol(&p)) {
+    parseFunc(&p);
+    eval(a, &p);
+  }
 }
 
 void repl(Parameters p) {
@@ -27,7 +65,7 @@ void repl(Parameters p) {
   warnx("Delay started; input commands. ^c exits.");
   while (poll(pfds, 1, 0) != -1) {
     if (pfds[0].revents & POLLIN) {
-      readLine(line);
+      readLine(&a, parsing(line));
     }
     playAudio(&a);
   }

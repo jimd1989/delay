@@ -1,5 +1,6 @@
 #include <err.h>
 #include <sndio.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -27,7 +28,8 @@ static AudioSettings audioSettings(SioPar p) {
 
 Audio audio(Parameters p) {
   Audio a = {0};
-  a.recordingVol = 1.0f;
+  a.lRecordingVol = 1.0f;
+  a.rRecordingVol = 1.0f;
   a.sndio = sndio();
   a.settings = audioSettings(a.sndio.play.parameters);
   a.buffer = calloc(a.settings.bufSizeBytes, 1);
@@ -54,8 +56,8 @@ void playAudio(Audio *a) {
   uint8_t *byteBuffer = a->buffer;
   int16_t *sampleBuffer = (int16_t *)a->buffer;
   for (; m < a->bytesRead ; n += 2, m += 4) {
-    l = FROM_I16(sampleBuffer[n])   * a->recordingVol;
-    r = FROM_I16(sampleBuffer[n+1]) * a->recordingVol;
+    l = FROM_I16(sampleBuffer[n])   * a->lRecordingVol;
+    r = FROM_I16(sampleBuffer[n+1]) * a->rRecordingVol;
     mixDelay(&a->delay, l, r);
     s = fromFloat(a->delay.lSample);
     byteBuffer[m]   = (uint8_t)(s & 255);
@@ -79,4 +81,12 @@ void stopAudio(Audio *a) {
   sio_close(a->sndio.rec.handle);
   killDelay(a->delay);
   free(a->buffer);
+}
+
+void setRecordingVol(Audio *a, bool right, float f) {
+  if (right) {
+    a->rRecordingVol = f;
+  } else {
+    a->lRecordingVol = f;
+  }
 }

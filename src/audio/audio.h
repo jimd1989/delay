@@ -10,7 +10,8 @@
 
 typedef struct Audio {
   size_t          bytesRead;
-  float           recordingVol;
+  float           lRecordingVol;
+  float           rRecordingVol;
   Delay           delay;
   uint8_t       * buffer;
   AudioSettings   settings;
@@ -21,3 +22,4 @@ Audio audio(Parameters);
 void startAudio(Audio *);
 void playAudio(Audio *);
 void stopAudio(Audio *);
+void setRecordingVol(Audio *, bool, float);
