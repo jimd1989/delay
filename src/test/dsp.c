@@ -91,4 +91,14 @@ void testDsp(void) {
   if (n != 0.0f) {
     warnx("     ! expected 0.0f; got %f", n);
   }
+  warnx("  scalar 2.5f truncated to 2.0f");
+  n = TRUNC(2.5f, 2.0f);
+  if (n != 2.0f) {
+    warnx("     ! expected 2.0f; got %f", n);
+  }
+  warnx("  1.0f +  1.5f truncated to 2.0f");
+  n = TRUNC(1.0f + 1.5f, 2.0f);
+  if (n != 2.0f) {
+    warnx("     ! expected 2.0f; got %f", n);
+  }
 }

@@ -4,16 +4,17 @@
 #include <unistd.h>
 
 #include "audio_settings.h"
+#include "interpolation.h"
 
 typedef struct DelayBuffer {
-  size_t          delay;
-  size_t          phase;
-  size_t          size;
-  float           feedback;
-  float           pan;
-  float           volume;
-  float           wet;
-  float         * data;
+  size_t                  phase;
+  size_t                  size;
+  InterpolatedInt         delay;
+  InterpolatedFloat       feedback;
+  InterpolatedFloat       pan;
+  InterpolatedFloat       volume;
+  InterpolatedFloat       wet;
+  float                 * data;
 } DelayBuffer;
 
 typedef struct Delay {
