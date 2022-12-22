@@ -43,7 +43,3 @@ A monophonic delay that syncopates nicely with the lowest BPM setting on a Korg 
 ```
 V0;R0;p0.5;w0.5;t1.2;f0.6
 ```
-
-## Caveats
-
-Changing parameters on the fly produces audible clicks. This severely limits the dynamic performance potential of the program for now.

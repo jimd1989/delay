@@ -31,13 +31,15 @@ Delay delay(AudioSettings as, float seconds) {
 }
 
 static float applyDelay(DelayBuffer *d, float x) {
-  float oldSample = d->data[d->phase];
-  size_t target = (d->phase + getInt(&d->delay)) % d->size;
-  x += (oldSample * getFloat(&d->feedback));
-  d->data[target] += x;
-  d->data[d->phase] = 0.0f;
-  d->phase = (d->phase + 1) % d->size;
-  return WET(x, oldSample, getFloat(&d->wet)) * getFloat(&d->volume);
+  size_t readHeadO = ((d->size - d->delay.old) + d->writeHead) % d->size;
+  size_t readHeadN = ((d->size - d->delay.new) + d->writeHead) % d->size;
+  float r = 0.0f;
+  d->delayMix.old = d->data[readHeadO];
+  d->delayMix.new = d->data[readHeadN];
+  r = getFloat(&d->delayMix);
+  d->data[d->writeHead] = x + (r * getFloat(&d->feedback));
+  d->writeHead = (d->writeHead + 1) % d->size;
+  return WET(x, r, getFloat(&d->wet)) * getFloat(&d->volume);
 }
 
 void mixDelay(Delay *d, float l, float r) {
@@ -63,6 +65,7 @@ void killDelay(Delay d) {
 void setDelayTime(Delay *d, size_t rate, bool right, float seconds) {
   DelayBuffer *db = right ? &d->right : &d->left;
   setInt(&db->delay, (float)rate * seconds);
+  db->delayMix.phase = 0.0f;
 }
 
 void setFeedback(Delay *d, bool right, float f) {

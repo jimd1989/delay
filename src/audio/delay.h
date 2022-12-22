@@ -7,9 +7,10 @@
 #include "interpolation.h"
 
 typedef struct DelayBuffer {
-  size_t                  phase;
   size_t                  size;
+  size_t                  writeHead;
   InterpolatedInt         delay;
+  InterpolatedFloat       delayMix;
   InterpolatedFloat       feedback;
   InterpolatedFloat       pan;
   InterpolatedFloat       volume;
