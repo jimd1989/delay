@@ -3,15 +3,15 @@
 #include <stdbool.h>
 
 typedef enum FuncName {
-  F_UNKNOWN = 0,
+  F_UNKNOWN    = 0,
   F_DELAY_FUNC = 'd',
-  F_FEEDBACK = 'f',
-  F_MIX_FUNC = 'm',
-  F_PAN = 'p',
+  F_FEEDBACK   = 'f',
+  F_MIX_FUNC   = 'm',
+  F_PAN        = 'p',
   F_RECORD_VOL = 'r',
   F_DELAY_TIME = 't',
-  F_VOL = 'v',
-  F_WET = 'w'
+  F_VOL        = 'v',
+  F_WET        = 'w'
 } FuncName;
 
 typedef struct Parsing {
