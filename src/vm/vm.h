@@ -1,13 +1,12 @@
 #pragma once
 
-#include <unistd.h>
-
 #include "program.h"
 #include "stack.h"
 
 typedef struct Vm {
-  size_t        depth;
-  size_t        head;
-  Program       program;
-  Stack         stack;
+  Program         programA;
+  Program         programB;
+  Program       * program;
+  Program       * programOld;
+  Stack           stack;
 } Vm;
