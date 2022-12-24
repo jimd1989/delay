@@ -18,5 +18,5 @@ typedef struct VmCell {
   VmCellData    data;
 } VmCell;
 
-char *numCell(char *, VmCell *);
+char *parseCell(VmCell *, char *);
 VmCell cell(void);

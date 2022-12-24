@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <unistd.h>
 
 #include "cell.h"
@@ -11,4 +12,5 @@ typedef struct Program {
   VmCell        data[PROGRAM_SIZE];
 } Program;
 
-void loadProgram(char *s);
+bool loadProgram(Program *, char *s);
+Program program(void);
