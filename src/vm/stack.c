@@ -10,7 +10,7 @@ VmCell popStack(Stack *s) {
 
 void pushStack(Stack *s, VmCell c) {
   if (s->head >= s->size) {
-    errx(-1, "stack overflow: %zu", s->size);
+    errx(-1, "stack overflow: %u", (unsigned int)s->size);
   } else {
     s->data[s->head++] = c;
   }

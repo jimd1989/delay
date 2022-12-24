@@ -17,3 +17,6 @@ typedef struct VmCell {
   VmCellType    type;
   VmCellData    data;
 } VmCell;
+
+char *numCell(char *, VmCell *);
+VmCell cell(void);

@@ -9,7 +9,7 @@ typedef enum VmFunc {
   VM_XOR            = '^',
   VM_SHIFTL         = '[',
   VM_SHIFTR         = ']',
-  VM_NOOP           = '_',
+  VM_NOOP           = ',',
   VM_DROP           = '#',
   VM_DUPLICATE      = '\\',
   VM_SWAP           = '~',
@@ -39,7 +39,6 @@ typedef enum VmFunc {
   VM_VAR_WETNESS    = 'w',
   VM_VAR_SAMPLE     = 'x',
   VM_VAR_OLD_SAMPLE = 'y'
-/* VM_NOT_USED      = ',',
- * VM_NOT_USED      = '(',
+/* VM_NOT_USED      = '(',
  * VM_NOT_USED      = ')', */
 } VmFunc;
