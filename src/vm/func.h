@@ -2,6 +2,7 @@
 
 typedef enum VmFunc {
   VM_UNKNOWN         =  0 ,
+  VM_JUMP            =  1 ,
   VM_READ            = '{',
   VM_WRITE           = '}',
   VM_AND             = '&',
@@ -22,6 +23,8 @@ typedef enum VmFunc {
   VM_IF              = '?',
   VM_ELSE            = ':',
   VM_ENDIF           = ';',
+  VM_MARK            = '(',
+  VM_RECALL          = ')',
   VM_NOT             = '!',
   VM_LESS            = '<',
   VM_GREATER         = '>',
@@ -40,6 +43,11 @@ typedef enum VmFunc {
   VM_VAR_WETNESS     = 'w',
   VM_VAR_SAMPLE      = 'x',
   VM_VAR_OLD_SAMPLE  = 'y'
-/* VM_NOT_USED       = '(',
- * VM_NOT_USED       = ')', */
 } VmFunc;
+
+typedef enum VmFuncEx {
+  VM_EX_UNKNOWN =  0,
+  VM_EX_FLOOR   = '<',
+  VM_EX_CEILING = '>',
+  VM_EX_EXTEND  = '@'
+} VmFuncExtended;

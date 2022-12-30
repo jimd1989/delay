@@ -36,6 +36,12 @@ void testCell(void) {
   if (c.data.n != -1001.000005f) {
     warnx("     ! expected -1001.000005f; got %f", c.data.n);
   }
+  warnx("  parses '.005' correctly");
+  c = cell();
+  s = parseCell(&c, ".005");
+  if (c.data.n != 0.005f) {
+    warnx("     ! expected 0.005f; got %f", c.data.n);
+  }
   warnx("  cuts off '_1001.0000005'");
   c = cell();
   s = parseCell(&c, "_1001.0000005");
