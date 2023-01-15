@@ -1,37 +1,24 @@
-#include <ctype.h>
 #include <err.h>
-#include <stdbool.h>
-#include <unistd.h>
 
 #include "cell.h"
 #include "program.h"
 
-#define IS_EOL(S) (*(S) == '\n' || *(S) == '\0')
-
-static char *eatWhitespace(char *s);
-
-static char *eatWhitespace(char *s) {
-  while (isblank(*s)) {
-    s++;
-  }
-  return s;
+void resetProgramWrite(Program *p) {
+  p->head = 0;
 }
 
-bool loadProgram(Program *p, char *s) {
-  size_t n = 0;
-  while (!IS_EOL(s)) {
-    if (n >= PROGRAM_SIZE) {
-      warnx("program exceeds limit of %u", (unsigned int)PROGRAM_SIZE);
-      return false;
+VmCell *nextProgramCell(Program *p, bool verbose) {
+  if (p->head >= p->size) {
+    if (verbose) {
+      warnx("program size exceeds %u instructions", (unsigned int)p->size);
     }
-    s = eatWhitespace(s);
-    s = parseCell(&p->data[n++], s);
-  }
-  p->size = n;
-  return true;
+    return NULL;
+  } 
+  return &p->data[p->head++];
 }
 
 Program program(void) {
   Program p = {0};
+  p.size = PROGRAM_SIZE;
   return p;
 }

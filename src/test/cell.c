@@ -57,4 +57,16 @@ void testCell(void) {
   if (strcmp(s, "+=?") != 0) {
     warnx("     ! expected remaining input '+=?'; got %s", s);
   } 
+  warnx("  parses one extended function from '@>1.5+'");
+  c = cell();
+  s = parseCell(&c, "@>1.5+");
+  if (c.type != VM_CELL_EX_FUNC) {
+    warnx("     ! expected extended function type");
+  }
+  if (c.data.f != VM_EX_CEILING) {
+    warnx("     ! expected ceiling function; got %d", c.data.f);
+  }
+  if (strcmp(s, "1.5+") != 0) {
+    warnx("     ! expected remaining input '1.5+'; got %s", s);
+  } 
 }

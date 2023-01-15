@@ -8,9 +8,11 @@
 #define PROGRAM_SIZE (size_t)256
 
 typedef struct Program {
+  size_t        head;
   size_t        size;
   VmCell        data[PROGRAM_SIZE];
 } Program;
 
-bool loadProgram(Program *, char *s);
+void resetProgramWrite(Program *);
+VmCell *nextProgramCell(Program *, bool);
 Program program(void);

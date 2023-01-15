@@ -1,8 +1,10 @@
 #pragma once
 
+#define VM_EXTEND '@'
+
 typedef enum VmFunc {
-  VM_UNKNOWN         =  0 ,
-  VM_JUMP            =  1 ,
+  VM_END             =  0 ,
+  VM_GOTO            =  1 ,
   VM_READ            = '{',
   VM_WRITE           = '}',
   VM_AND             = '&',
@@ -30,7 +32,6 @@ typedef enum VmFunc {
   VM_GREATER         = '>',
   VM_EQUAL           = '=',
   VM_SINE            = '$',
-  VM_EXTEND          = '@',
   VM_VAR_A_PARAM     = 'a',
   VM_VAR_B_PARAM     = 'b',
   VM_VAR_C_PARAM     = 'c',
@@ -46,8 +47,6 @@ typedef enum VmFunc {
 } VmFunc;
 
 typedef enum VmFuncEx {
-  VM_EX_UNKNOWN =  0,
   VM_EX_FLOOR   = '<',
-  VM_EX_CEILING = '>',
-  VM_EX_EXTEND  = '@'
+  VM_EX_CEILING = '>'
 } VmFuncExtended;
