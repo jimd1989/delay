@@ -49,4 +49,4 @@ typedef enum VmFunc {
 typedef enum VmFuncEx {
   VM_EX_FLOOR   = '<',
   VM_EX_CEILING = '>'
-} VmFuncExtended;
+} VmFuncEx;

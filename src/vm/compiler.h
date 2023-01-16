@@ -9,10 +9,11 @@
 
 typedef struct Compiler {
   char          * remaining;
+  Program       * program;
   Stack           conditions;
   Stack           loops;
-  Program         program;
 } Compiler;
 
 bool compile(Compiler *, char *, bool);
-Compiler compiler(void);
+void setCompilerProgram(Compiler *, Program *);
+Compiler compiler(Program *);

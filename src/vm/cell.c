@@ -57,6 +57,13 @@ VmCell endProgram(void) {
   return c;
 }
 
+VmCell number(float f) {
+  VmCell c = {0};
+  c.type = VM_CELL_NUM;
+  c.data.n = f;
+  return c;
+}
+
 VmCell cell(void) {
   VmCell c = {0};
   return c;

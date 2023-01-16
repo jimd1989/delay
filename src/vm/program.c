@@ -3,7 +3,7 @@
 #include "cell.h"
 #include "program.h"
 
-void resetProgramWrite(Program *p) {
+void resetProgram(Program *p) {
   p->head = 0;
 }
 

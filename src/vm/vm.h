@@ -1,12 +1,16 @@
 #pragma once
 
+#include "compiler.h"
 #include "program.h"
-#include "stack.h"
 
 typedef struct Vm {
-  Program         programA;
-  Program         programB;
   Program       * program;
   Program       * programOld;
-  Stack           stack;
+  Interpreter     interpreter;
+  Compiler        compiler;
+  Program         programA;
+  Program         programB;
 } Vm;
+
+void setVmProgram(Vm *, char *);
+Vm vm(void);

@@ -10,6 +10,7 @@ typedef struct Stack {
   VmCell        data[STACK_SIZE];
 } Stack;
 
+float *directNumber(Stack *);
 VmCell popStack(Stack *);
 void pushStack(Stack *, VmCell);
 Stack stack(void);

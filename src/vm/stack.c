@@ -3,6 +3,10 @@
 #include "cell.h"
 #include "stack.h"
 
+float *directNumber(Stack *s) {
+  return s->head > 0 ? &s->data[s->head - 1].data.n : NULL;
+}
+
 VmCell popStack(Stack *s) {
   VmCell empty = {0};
   return s->head > 0 ? s->data[--s->head] : empty;

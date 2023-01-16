@@ -13,6 +13,7 @@ typedef enum VmCellType {
 
 typedef union VmCellData {
   VmFunc        f;
+  VmFuncEx      g;
   float         n;
   int32_t       i;
 } VmCellData;
@@ -24,4 +25,5 @@ typedef struct VmCell {
 
 char *parseCell(VmCell *, char *);
 VmCell endProgram(void);
+VmCell number(float);
 VmCell cell(void);

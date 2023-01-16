@@ -13,6 +13,6 @@ typedef struct Program {
   VmCell        data[PROGRAM_SIZE];
 } Program;
 
-void resetProgramWrite(Program *);
+void resetProgram(Program *);
 VmCell *nextProgramCell(Program *, bool);
 Program program(void);

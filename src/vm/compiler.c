@@ -23,7 +23,7 @@ static void eatWhitespace(Compiler *c) {
 
 static bool compileInstruction(Compiler *c, bool verbose) {
   VmCell *x = NULL;
-  x = nextProgramCell(&c->program, verbose);
+  x = nextProgramCell(c->program, verbose);
   if (x == NULL) {
     return false;
   }
@@ -36,7 +36,7 @@ static bool compileInstruction(Compiler *c, bool verbose) {
 
 static bool endCompilation(Compiler *c, bool verbose) {
   VmCell *x = NULL;
-  x = nextProgramCell(&c->program, verbose);
+  x = nextProgramCell(c->program, verbose);
   if (x == NULL) {
     return false;
   }
@@ -45,7 +45,7 @@ static bool endCompilation(Compiler *c, bool verbose) {
 }
 
 bool compile(Compiler *c, char *input, bool verbose) {
-  resetProgramWrite(&c->program);
+  resetProgram(c->program);
   c->remaining = input;
   eatWhitespace(c);
   if (IS_EOF(c->remaining) || !IS_DELIMETER(c->remaining)) {
@@ -71,11 +71,15 @@ bool compile(Compiler *c, char *input, bool verbose) {
   return endCompilation(c, verbose);
 }
 
-Compiler compiler(void) {
+void setCompilerProgram(Compiler *c, Program *p) {
+  c->program = p;
+}
+
+Compiler compiler(Program *p) {
   Compiler c = {0};
   c.remaining = NULL;
   c.conditions = stack();
   c.loops = stack();
-  c.program = program();
+  c.program = p;
   return c;
 }
