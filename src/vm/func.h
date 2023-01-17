@@ -9,9 +9,6 @@ typedef enum VmFunc {
   VM_WRITE           = '}',
   VM_AND             = '&',
   VM_OR              = '|',
-  VM_XOR             = '^',
-  VM_SHIFTL          = '[',
-  VM_SHIFTR          = ']',
   VM_NOOP            = ',',
   VM_DROP            = '#',
   VM_DUPLICATE       = '\\',
@@ -20,6 +17,7 @@ typedef enum VmFunc {
   VM_MINUS           = '-',
   VM_MULTIPLY        = '*',
   VM_DIVIDE          = '/',
+  VM_POW             = '^',
   VM_MODULO          = '%',
   VM_ABS             = '`',
   VM_IF              = '?',
@@ -46,7 +44,15 @@ typedef enum VmFunc {
   VM_VAR_OLD_SAMPLE  = 'y'
 } VmFunc;
 
+/* Unused: [ ] */
+
 typedef enum VmFuncEx {
   VM_EX_FLOOR   = '<',
-  VM_EX_CEILING = '>'
+  VM_EX_CEILING = '>',
+  VM_EX_AND     = '&',
+  VM_EX_OR      = '|',
+  VM_EX_XOR     = '^',
+  VM_EX_NOT     = '~',
+  VM_EX_SHIFTL  = '[',
+  VM_EX_SHIFTR  = ']'
 } VmFuncEx;
