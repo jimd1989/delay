@@ -12,14 +12,26 @@ void testInterpreter(void) {
   Compiler c = compiler(&p);
   Interpreter i = interpreter(&p);
   warnx("interpreter");
-  warnx("  '1 2@[1@|4@&3@^2@]' = 1.0f");
-  compile(&c, "'1 2@[1@|4@&3@^2@]'", false);
+  warnx("  ' 8.5 _.5+2^1+3%%2*2/3-`' = 1.0f");
+  compile(&c, "' 8.5 _.5+2^1+3%2*2/3-`'", false);
   f = interpret(&i);
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
-  warnx("  ' 8.5 _.5+3%%2*2/3-`' = 1.0f");
-  compile(&c, "' 8.5 _.5+3%2*2/3-`'", false);
+  warnx("  '1 2 3 4 2#+2\\**27/' = 1.0f");
+  compile(&c, "'1 2 3 4 2#+2\\**27/'", false);
+  f = interpret(&i);
+  if (f != 1.0f) {
+    warnx("     ! expected 1.0f; got %f", f);
+  }
+  warnx("  '9 10~-' = 1.0f");
+  compile(&c, "'9 10~-'", false);
+  f = interpret(&i);
+  if (f != 1.0f) {
+    warnx("     ! expected 1.0f; got %f", f);
+  }
+  warnx("  '1 2@[1@|4@&3@^2@]' = 1.0f");
+  compile(&c, "'1 2@[1@|4@&3@^2@]'", false);
   f = interpret(&i);
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);

@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <unistd.h>
 
 #include "cell.h"
 #include "func.h"
@@ -27,6 +28,9 @@ static void evaluateFunc(Interpreter *, VmCell);
 static void evaluateExFunc(Interpreter *, VmCell);
 static void iAnd(Stack *);
 static void iOr(Stack *);
+static void iDrop(Stack *);
+static void iDuplicate(Stack *);
+static void iSwap(Stack *);
 static void iPlus(Stack *);
 static void iMinus(Stack *s);
 static void iMultiply(Stack *s);
@@ -77,10 +81,13 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
     case VM_NOOP:
       break;
     case VM_DROP:
+      iDrop(&i->stack);
       break;
     case VM_DUPLICATE:
+      iDuplicate(&i->stack);
       break;
     case VM_SWAP:
+      iSwap(&i->stack);
       break;
     case VM_PLUS:
       iPlus(&i->stack);
@@ -159,6 +166,31 @@ DYAD(iDivide, x, y, x / y)
 DYAD(iPow, x, y, powf(x, y))
 DYAD(iModulo, x, y, fmodf(x, y))
 MONAD(iAbs, fabsf)
+
+static void iDrop(Stack *s) {
+  size_t n = (size_t)popStack(s).data.n;
+  while (n > 0 && s->head > 0) {
+    (void)popStack(s);
+    n--;
+  }
+}
+
+static void iDuplicate(Stack *s) {
+  size_t n = (size_t)popStack(s).data.n;
+  VmCell x = popStack(s);
+  pushStack(s, x);
+  while (n > 0) {
+    pushStack(s, x);
+    n--;
+  }
+}
+
+static void iSwap(Stack *s) {
+  VmCell y = popStack(s);
+  VmCell x = popStack(s);
+  pushStack(s, y);
+  pushStack(s, x);
+}
 
 static void evaluateExFunc(Interpreter *i, VmCell x) {
   switch (x.data.g) {

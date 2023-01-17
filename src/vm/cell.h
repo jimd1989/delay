@@ -15,7 +15,7 @@ typedef union VmCellData {
   VmFunc        f;
   VmFuncEx      g;
   float         n;
-  int32_t       i;
+  int64_t       i;
 } VmCellData;
 
 typedef struct VmCell {
