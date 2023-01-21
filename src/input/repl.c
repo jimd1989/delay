@@ -3,9 +3,10 @@
 #include <unistd.h>
 
 #include "../audio/audio.h"
-#include "parse.h"
 #include "parameters.h"
+#include "parse.h"
 #include "repl.h"
+#include "variables.h"
 
 static void eval(Audio *, Parsing *);
 static void readLine(Audio *, Parsing);
@@ -56,7 +57,8 @@ static void readLine(Audio *a, Parsing p) {
 }
 
 void repl(Parameters p) {
-  Audio a = audio(p);
+  Variables v = {0};
+  Audio a = audio(p, &v);
   char line[REPL_LINE_SIZE] = {0};
   struct pollfd pfds[1] = {{0}};
   pfds[0].fd = STDIN_FILENO;

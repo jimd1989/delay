@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "../input/interpolation.h"
 #include "audio_settings.h"
 #include "dsp.h"
-#include "interpolation.h"
 
 static DelayBuffer delayBuffer(size_t, float, float);
 static float applyDelay(DelayBuffer *, float);

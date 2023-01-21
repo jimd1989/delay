@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include "../input/variables.h"
 #include "compiler.h"
 #include "interpreter.h"
 #include "program.h"
@@ -18,14 +19,13 @@ void setVmProgram(Vm *v, char *s) {
   /* Need failed compilation input cleanup */
 }
 
-Vm vm(void) {
-  /* Constructor should take Variables struct */
-  Vm v = {0};
-  v.programA = program();
-  v.programB = program();
-  v.program = &v.programA;
-  v.programOld = &v.programB;
-  v.interpreter = interpreter(v.program, INTERPRETER_HEAP_SIZE, 48000 * 10);
-  v.compiler = compiler(v.programOld);
-  return v;
+Vm vm(Variables *v) {
+  Vm vm = {0};
+  vm.programA = program();
+  vm.programB = program();
+  vm.program = &vm.programA;
+  vm.programOld = &vm.programB;
+  vm.interpreter = interpreter(v, vm.program);
+  vm.compiler = compiler(vm.programOld);
+  return vm;
 }
