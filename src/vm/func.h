@@ -34,6 +34,7 @@ typedef enum VmFunc {
   VM_VAR_B_PARAM     = 'b',
   VM_VAR_C_PARAM     = 'c',
   VM_VAR_FEEDBACK    = 'f',
+  VM_VAR_HEAP        = 'H',
   VM_VAR_TAPE_LENGTH = 'l',
   VM_VAR_PHASE       = 'p',
   VM_VAR_DELAY_TIME  = 't',

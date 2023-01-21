@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+#include "array.h"
 #include "func.h"
 
 typedef enum VmCellType {
@@ -12,10 +13,11 @@ typedef enum VmCellType {
 } VmCellType;
 
 typedef union VmCellData {
-  VmFunc        f;
-  VmFuncEx      g;
-  float         n;
-  int64_t       i;
+  VmFunc          f;
+  VmFuncEx        g;
+  float           n;
+  int64_t         i;
+  Array         * p;
 } VmCellData;
 
 typedef struct VmCell {
@@ -26,4 +28,5 @@ typedef struct VmCell {
 char *parseCell(VmCell *, char *);
 VmCell endProgram(void);
 VmCell number(float);
+VmCell address(Array *);
 VmCell cell(void);

@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
+#include "array.h"
 #include "cell.h"
 #include "func.h"
 #include "interpreter.h"
@@ -26,6 +27,8 @@
 static void evaluate(Interpreter *, VmCell);
 static void evaluateFunc(Interpreter *, VmCell);
 static void evaluateExFunc(Interpreter *, VmCell);
+static void iRead(Interpreter *);
+static void iWrite(Interpreter *);
 static void iAnd(Stack *);
 static void iOr(Stack *);
 static void iDrop(Stack *);
@@ -38,6 +41,7 @@ static void iDivide(Stack *s);
 static void iPow(Stack *);
 static void iModulo(Stack *s);
 static void iAbs(Stack *s);
+static void iHeap(Interpreter *i);
 static void iFloor(Stack *);
 static void iCeiling(Stack *);
 static void iBitwiseAnd(Stack *s);
@@ -69,8 +73,10 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
     case VM_GOTO:
       break;
     case VM_READ:
+      iRead(i);
       break;
     case VM_WRITE:
+      iWrite(i);
       break;
     case VM_AND:
       iAnd(&i->stack);
@@ -138,6 +144,9 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
       break;
     case VM_VAR_FEEDBACK:
       break;
+    case VM_VAR_HEAP:
+      iHeap(i);
+      break;
     case VM_VAR_TAPE_LENGTH:
       break;
     case VM_VAR_PHASE:
@@ -155,6 +164,19 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
     case VM_VAR_OLD_SAMPLE:
       break;
   }
+}
+
+static void iRead(Interpreter *i) {
+  size_t n = (size_t)popStack(&i->stack).data.n;
+  Array *a = popStack(&i->stack).data.p;
+  pushStack(&i->stack, number(readArray(a, n)));
+}
+
+static void iWrite(Interpreter *i) {
+  float f = popStack(&i->stack).data.n;
+  size_t n = (size_t)popStack(&i->stack).data.n;
+  Array *a = popStack(&i->stack).data.p;
+  writeArray(a, n, f);
 }
 
 DYAD(iAnd, x, y, (x && y))
@@ -190,6 +212,10 @@ static void iSwap(Stack *s) {
   VmCell x = popStack(s);
   pushStack(s, y);
   pushStack(s, x);
+}
+
+static void iHeap(Interpreter *i) {
+  pushStack(&i->stack, address(&i->heap));
 }
 
 static void evaluateExFunc(Interpreter *i, VmCell x) {
@@ -229,8 +255,12 @@ DYAD(iShiftL, x, y, (int64_t)x << (int64_t)y)
 DYAD(iShiftR, x, y, (int64_t)x >> (int64_t)y)
 
 float interpret(Interpreter *i) {
-  VmCell *x = i->program->data;
+  VmCell *x = NULL;
   resetProgram(i->program);
+  x = nextProgramCell(i->program, true);
+  if (x == NULL) {
+    return 0.0f;
+  }
   while (!(x->type == VM_CELL_FUNC && x->data.f == VM_END)) {
     evaluate(i, *x);
     x = nextProgramCell(i->program, true);
@@ -245,9 +275,10 @@ void setInterpreterProgram(Interpreter *i, Program *p) {
   i->program = p;
 }
 
-Interpreter interpreter(Program *p) {
+Interpreter interpreter(Program *p, size_t heapSize) {
   Interpreter i = {0};
   i.program = p;
   i.stack = stack();
+  i.heap = array(heapSize);
   return i;
 }

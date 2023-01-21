@@ -64,6 +64,13 @@ VmCell number(float f) {
   return c;
 }
 
+VmCell address(Array *a) {
+  VmCell c = {0};
+  c.type = VM_CELL_NUM;
+  c.data.p = a;
+  return c;
+}
+
 VmCell cell(void) {
   VmCell c = {0};
   return c;

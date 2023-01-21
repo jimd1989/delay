@@ -25,7 +25,6 @@ typedef struct Delay {
   DelayBuffer   right;
 } Delay;
 
-Delay delay(AudioSettings, float);
 void mixDelay(Delay *, float, float);
 void killDelay(Delay);
 void setDelayTime(Delay *, size_t, bool, float);
@@ -33,3 +32,4 @@ void setFeedback(Delay *, bool, float);
 void setPan(Delay *, bool, float);
 void setWetDry(Delay *, bool, float);
 void setDelayVolume(Delay *, bool, float);
+Delay delay(AudioSettings, float);

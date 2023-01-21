@@ -25,7 +25,7 @@ Vm vm(void) {
   v.programB = program();
   v.program = &v.programA;
   v.programOld = &v.programB;
-  v.interpreter = interpreter(v.program);
+  v.interpreter = interpreter(v.program, INTERPRETER_HEAP_SIZE);
   v.compiler = compiler(v.programOld);
   return v;
 }
