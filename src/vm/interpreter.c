@@ -42,6 +42,7 @@ static void iPow(Stack *);
 static void iModulo(Stack *s);
 static void iAbs(Stack *s);
 static void iHeap(Interpreter *i);
+static void iTape(Interpreter *i);
 static void iFloor(Stack *);
 static void iCeiling(Stack *);
 static void iBitwiseAnd(Stack *s);
@@ -149,9 +150,12 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
       break;
     case VM_VAR_TAPE_LENGTH:
       break;
-    case VM_VAR_PHASE:
+    case VM_VAR_PAN:
       break;
     case VM_VAR_DELAY_TIME:
+      break;
+    case VM_VAR_TAPE:
+      iTape(i);
       break;
     case VM_VAR_RANDOM:
       break;
@@ -160,8 +164,6 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
     case VM_VAR_WETNESS:
       break;
     case VM_VAR_SAMPLE:
-      break;
-    case VM_VAR_OLD_SAMPLE:
       break;
   }
 }
@@ -218,8 +220,14 @@ static void iHeap(Interpreter *i) {
   pushStack(&i->stack, address(&i->heap));
 }
 
+static void iTape(Interpreter *i) {
+  pushStack(&i->stack, address(&i->tape));
+}
+
 static void evaluateExFunc(Interpreter *i, VmCell x) {
   switch (x.data.g) {
+    case VM_EX_LERP:
+      break;
     case VM_EX_FLOOR:
       iFloor(&i->stack);
       break;
@@ -275,10 +283,11 @@ void setInterpreterProgram(Interpreter *i, Program *p) {
   i->program = p;
 }
 
-Interpreter interpreter(Program *p, size_t heapSize) {
+Interpreter interpreter(Program *p, size_t heapSize, size_t tapeSize) {
   Interpreter i = {0};
   i.program = p;
   i.stack = stack();
   i.heap = array(heapSize);
+  i.tape = array(tapeSize);
   return i;
 }

@@ -10,8 +10,14 @@ void testInterpreter(void) {
   float f = 0.0f;
   Program p = program();
   Compiler c = compiler(&p);
-  Interpreter i = interpreter(&p, INTERPRETER_HEAP_SIZE);
+  Interpreter i = interpreter(&p, INTERPRETER_HEAP_SIZE, 128);
   warnx("interpreter");
+  warnx("  'T129 1.0}T1{' = 1.0f");
+  compile(&c, "'T129 1.0}T1{'", false);
+  f = interpret(&i);
+  if (f != 1.0f) {
+    warnx("     ! expected 1.0f; got %f", f);
+  }
   warnx("  'H100 .5}H101 1.5}H101{H100{-' = 1.0f");
   compile(&c, "'H100 .5}H101 1.5}H101{H100{-'", false);
   f = interpret(&i);

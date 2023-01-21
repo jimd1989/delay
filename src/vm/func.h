@@ -36,18 +36,19 @@ typedef enum VmFunc {
   VM_VAR_FEEDBACK    = 'f',
   VM_VAR_HEAP        = 'H',
   VM_VAR_TAPE_LENGTH = 'l',
-  VM_VAR_PHASE       = 'p',
+  VM_VAR_PAN         = 'p',
   VM_VAR_DELAY_TIME  = 't',
+  VM_VAR_TAPE        = 'T',
   VM_VAR_RANDOM      = 'r',
   VM_VAR_VOLUME      = 'v',
   VM_VAR_WETNESS     = 'w',
-  VM_VAR_SAMPLE      = 'x',
-  VM_VAR_OLD_SAMPLE  = 'y'
+  VM_VAR_SAMPLE      = 'x'
 } VmFunc;
 
 /* Unused: [ ] */
 
 typedef enum VmFuncEx {
+  VM_EX_LERP    = '{',
   VM_EX_FLOOR   = '<',
   VM_EX_CEILING = '>',
   VM_EX_AND     = '&',

@@ -12,8 +12,9 @@ typedef struct Interpreter {
   Program       * program;
   Stack           stack;
   Array           heap;
+  Array           tape;
 } Interpreter;
 
 float interpret(Interpreter *);
 void setInterpreterProgram(Interpreter *, Program *);
-Interpreter interpreter(Program *, size_t);
+Interpreter interpreter(Program *, size_t, size_t);
