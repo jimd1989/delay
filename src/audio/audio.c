@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "../input/variables.h"
+#include "../vm/vm.h"
 #include "audio.h"
 #include "audio_settings.h"
 #include "delay.h"
@@ -24,18 +26,6 @@ static AudioSettings audioSettings(SioPar p) {
   as.bufSizeFrames = frames;
   as.bufSizeBytes = frames * as.chan * sizeof(int16_t);
   return as;
-}
-
-Audio audio(Parameters p) {
-  Audio a = {0};
-  setFloat(&a.lRecordingVol, 1.0f);
-  setFloat(&a.rRecordingVol, 1.0f);
-  a.sndio = sndio();
-  a.settings = audioSettings(a.sndio.play.parameters);
-  a.buffer = calloc(a.settings.bufSizeBytes, 1);
-  a.delay = delay(a.settings, p.maxDelay);
-  a.bytesRead = a.settings.bufSizeFrames * a.settings.chan * sizeof(int16_t);
-  return a;
 }
 
 void startAudio(Audio *a) {
@@ -89,4 +79,18 @@ void setRecordingVol(Audio *a, bool right, float f) {
   } else {
     setFloat(&a->lRecordingVol, f);
   }
+}
+
+Audio audio(Parameters p, Variables *v) {
+  Audio a = {0};
+  setFloat(&a.lRecordingVol, 1.0f);
+  setFloat(&a.rRecordingVol, 1.0f);
+  a.sndio = sndio();
+  a.settings = audioSettings(a.sndio.play.parameters);
+  a.buffer = calloc(a.settings.bufSizeBytes, 1);
+  a.delay = delay(a.settings, p.maxDelay);
+  a.bytesRead = a.settings.bufSizeFrames * a.settings.chan * sizeof(int16_t);
+  *v = variables(p, a.settings);
+  a.vm = vm(v);
+  return a;
 }

@@ -5,6 +5,7 @@
 
 #include "array.h"
 #include "cell.h"
+#include "environment.h"
 #include "func.h"
 #include "interpreter.h"
 #include "program.h"
@@ -150,20 +151,26 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
       break;
     case VM_VAR_TAPE_LENGTH:
       break;
+    case VM_VAR_CHAN:
+      break;
     case VM_VAR_PAN:
+      break;
+    case VM_VAR_RANDOM:
+      break;
+    case VM_VAR_STACK_SIZE:
       break;
     case VM_VAR_DELAY_TIME:
       break;
     case VM_VAR_TAPE:
       iTape(i);
       break;
-    case VM_VAR_RANDOM:
-      break;
     case VM_VAR_VOLUME:
       break;
     case VM_VAR_WETNESS:
       break;
     case VM_VAR_SAMPLE:
+      break;
+    case VM_VAR_RATE:
       break;
   }
 }
@@ -283,11 +290,12 @@ void setInterpreterProgram(Interpreter *i, Program *p) {
   i->program = p;
 }
 
-Interpreter interpreter(Program *p, size_t heapSize, size_t tapeSize) {
+Interpreter interpreter(Variables *v, Program *p) {
   Interpreter i = {0};
   i.program = p;
+  i.environment = environment(v);
   i.stack = stack();
-  i.heap = array(heapSize);
-  i.tape = array(tapeSize);
+  i.heap = array(v->heapSize);
+  i.tape = array((size_t)(v->rate * v->maxDelay));
   return i;
 }

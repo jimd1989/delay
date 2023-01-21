@@ -1,6 +1,6 @@
 #include <err.h>
 
-#include "../audio/interpolation.h"
+#include "../input/interpolation.h"
 #include "interpolation.h"
 
 void testInterpolation(void) {
