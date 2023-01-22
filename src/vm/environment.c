@@ -13,5 +13,7 @@ Environment environment(Variables *v) {
   e.delayTime = &v->delayTime.product;
   e.volume = &v->volume.product;
   e.wetness = &v->wetness.product;
+  e.currentSample = v->currentSample;
+  e.otherSample = v->otherSample;
   return e;
 }

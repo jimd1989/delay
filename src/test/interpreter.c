@@ -19,7 +19,7 @@ void testInterpreter(void) {
   par.maxDelay = 1.0f;
   a.rate = 128;
   a.chan = 2;
-  v = variables(par, a);
+  v = variables(par, a, NULL, NULL);
   i = interpreter(&v, &p);
   warnx("interpreter");
   warnx("  'T129 1.0}T1{' = 1.0f");
@@ -54,6 +54,12 @@ void testInterpreter(void) {
   }
   warnx("  '1 2@[1@|4@&3@^2@]' = 1.0f");
   compile(&c, "'1 2@[1@|4@&3@^2@]'", false);
+  f = interpret(&i);
+  if (f != 1.0f) {
+    warnx("     ! expected 1.0f; got %f", f);
+  }
+  warnx("  'z128/' = 1.0f");
+  compile(&c, "'z128/'", false);
   f = interpret(&i);
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);

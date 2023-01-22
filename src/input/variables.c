@@ -3,12 +3,14 @@
 #include "parameters.h"
 #include "variables.h"
 
-Variables variables(Parameters p, AudioSettings a) {
+Variables variables(Parameters p, AudioSettings a, float *x, float *y) {
   Variables v = {0};
   v.chan = a.chan;
   v.heapSize = p.heapSize;
   v.maxDelay = p.maxDelay;
   v.rate = a.rate;
+  v.currentSample = x;
+  v.otherSample = y;
   v.a = interpolatedFloat(p.interpolationFrames);
   v.b = interpolatedFloat(p.interpolationFrames);
   v.c = interpolatedFloat(p.interpolationFrames);

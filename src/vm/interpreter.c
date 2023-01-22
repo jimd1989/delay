@@ -18,11 +18,14 @@
   }\
 }
 
-
 #define DYAD(N, X, Y, F) static void N(Stack *s) {\
   float Y = popStack(s).data.n;\
   float X = popStack(s).data.n;\
   pushStack(s, number(F));\
+}
+
+#define DYNAMIC_VAR(N, V) static void N(Interpreter *i) {\
+  pushStack(&i->stack, number(*i->environment.V));\
 }
 
 static void evaluate(Interpreter *, VmCell);
@@ -44,6 +47,20 @@ static void iModulo(Stack *s);
 static void iAbs(Stack *s);
 static void iHeap(Interpreter *i);
 static void iTape(Interpreter *i);
+static void iChan(Interpreter *i);
+static void iRate(Interpreter *i);
+static void iTapeLength(Interpreter *i);
+static void iStackSize(Interpreter *i);
+static void iA(Interpreter *i);
+static void iB(Interpreter *i);
+static void iC(Interpreter *i);
+static void iFeedback(Interpreter *i);
+static void iPan(Interpreter *i);
+static void iDelayTime(Interpreter *i);
+static void iVolume(Interpreter *i);
+static void iWetness(Interpreter *i);
+static void iSample(Interpreter *i);
+static void iOtherSample(Interpreter *i);
 static void iFloor(Stack *);
 static void iCeiling(Stack *);
 static void iBitwiseAnd(Stack *s);
@@ -139,38 +156,54 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
     case VM_SINE:
       break;
     case VM_VAR_A_PARAM:
+      iA(i);
       break;
     case VM_VAR_B_PARAM:
+      iB(i);
       break;
     case VM_VAR_C_PARAM:
+      iC(i);
       break;
     case VM_VAR_FEEDBACK:
+      iFeedback(i);
       break;
     case VM_VAR_HEAP:
       iHeap(i);
       break;
     case VM_VAR_TAPE_LENGTH:
+      iTapeLength(i);
       break;
     case VM_VAR_CHAN:
+      iChan(i);
       break;
     case VM_VAR_PAN:
+      iPan(i);
       break;
     case VM_VAR_RANDOM:
       break;
     case VM_VAR_STACK_SIZE:
+      iStackSize(i);
       break;
     case VM_VAR_DELAY_TIME:
+      iDelayTime(i);
       break;
     case VM_VAR_TAPE:
       iTape(i);
       break;
     case VM_VAR_VOLUME:
+      iVolume(i);
       break;
     case VM_VAR_WETNESS:
+      iWetness(i);
       break;
     case VM_VAR_SAMPLE:
+      iSample(i);
+      break;
+    case VM_VAR_OTHER_SAMPLE:
+      iOtherSample(i);
       break;
     case VM_VAR_RATE:
+      iRate(i);
       break;
   }
 }
@@ -231,9 +264,38 @@ static void iTape(Interpreter *i) {
   pushStack(&i->stack, address(&i->tape));
 }
 
+static void iChan(Interpreter *i) {
+  pushStack(&i->stack, number(i->environment.chan));
+}
+
+static void iRate(Interpreter *i) {
+  pushStack(&i->stack, number(i->environment.rate));
+}
+
+static void iTapeLength(Interpreter *i) {
+  pushStack(&i->stack, number(i->tape.size));
+}
+
+static void iStackSize(Interpreter *i) {
+  pushStack(&i->stack, number(i->stack.head));
+}
+
+DYNAMIC_VAR(iA, a)
+DYNAMIC_VAR(iB, b)
+DYNAMIC_VAR(iC, c)
+DYNAMIC_VAR(iFeedback, feedback)
+DYNAMIC_VAR(iPan, pan)
+DYNAMIC_VAR(iDelayTime, delayTime)
+DYNAMIC_VAR(iVolume, volume)
+DYNAMIC_VAR(iWetness, wetness)
+DYNAMIC_VAR(iSample, currentSample)
+DYNAMIC_VAR(iOtherSample, otherSample)
+
 static void evaluateExFunc(Interpreter *i, VmCell x) {
   switch (x.data.g) {
     case VM_EX_LERP:
+      break;
+    case VM_EX_PAN:
       break;
     case VM_EX_FLOOR:
       iFloor(&i->stack);

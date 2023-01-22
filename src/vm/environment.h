@@ -13,6 +13,8 @@ typedef struct Environment {
   float * delayTime;
   float * volume;
   float * wetness;
+  float * currentSample;
+  float * otherSample;
 } Environment;
 
 Environment environment(Variables *);

@@ -39,16 +39,14 @@ void startAudio(Audio *a) {
 
 void playAudio(Audio *a) {
   int16_t s = 0;
-  float l = 0.0f;
-  float r = 0.0f;
   size_t n = 0;
   size_t m = 0;
   uint8_t *byteBuffer = a->buffer;
   int16_t *sampleBuffer = (int16_t *)a->buffer;
   for (; m < a->bytesRead ; n += 2, m += 4) {
-    l = FROM_I16(sampleBuffer[n])   * getFloat(&a->lRecordingVol);
-    r = FROM_I16(sampleBuffer[n+1]) * getFloat(&a->rRecordingVol);
-    mixDelay(&a->delay, l, r);
+    a->l = FROM_I16(sampleBuffer[n])   * getFloat(&a->lRecordingVol);
+    a->r = FROM_I16(sampleBuffer[n+1]) * getFloat(&a->rRecordingVol);
+    mixDelay(&a->delay, a->l, a->r);
     s = fromFloat(a->delay.lSample);
     byteBuffer[m]   = (uint8_t)(s & 255);
     byteBuffer[m+1] = (uint8_t)(s >> 8);
@@ -81,7 +79,7 @@ void setRecordingVol(Audio *a, bool right, float f) {
   }
 }
 
-Audio audio(Parameters p, Variables *v) {
+Audio audio(Parameters p, Variables *vl, Variables *vr) {
   Audio a = {0};
   setFloat(&a.lRecordingVol, 1.0f);
   setFloat(&a.rRecordingVol, 1.0f);
@@ -90,7 +88,9 @@ Audio audio(Parameters p, Variables *v) {
   a.buffer = calloc(a.settings.bufSizeBytes, 1);
   a.delay = delay(a.settings, p.maxDelay);
   a.bytesRead = a.settings.bufSizeFrames * a.settings.chan * sizeof(int16_t);
-  *v = variables(p, a.settings);
-  a.vm = vm(v);
+  *vl = variables(p, a.settings, &a.l, &a.r);
+  *vr = variables(p, a.settings, &a.r, &a.l);
+  a.vmL = vm(vl);
+  a.vmR = vm(vr);
   return a;
 }

@@ -57,19 +57,18 @@ static void readLine(Audio *a, Parsing p) {
 }
 
 void repl(Parameters p) {
-  Variables v = {0};
-  Audio a = audio(p, &v);
-  char line[REPL_LINE_SIZE] = {0};
+  Repl r = {{0}};
   struct pollfd pfds[1] = {{0}};
   pfds[0].fd = STDIN_FILENO;
   pfds[0].events = POLLIN;
-  startAudio(&a);
+  r.audio = audio(p, &r.lVariables, &r.rVariables);
+  startAudio(&r.audio);
   warnx("Delay started; input commands. ^c exits.");
   while (poll(pfds, 1, 0) != -1) {
     if (pfds[0].revents & POLLIN) {
-      readLine(&a, parsing(line));
+      readLine(&r.audio, parsing(r.line));
     }
-    playAudio(&a);
+    playAudio(&r.audio);
   }
-  stopAudio(&a);
+  stopAudio(&r.audio);
 }

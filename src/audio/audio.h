@@ -17,13 +17,16 @@ typedef struct Audio {
   InterpolatedFloat       rRecordingVol;
   Delay                   delay;
   uint8_t               * buffer;
+  float                   l;
+  float                   r;
   AudioSettings           settings;
   Sndio                   sndio;
-  Vm                      vm;
+  Vm                      vmL;
+  Vm                      vmR;
 } Audio;
 
 void startAudio(Audio *);
 void playAudio(Audio *);
 void stopAudio(Audio *);
 void setRecordingVol(Audio *, bool, float);
-Audio audio(Parameters, Variables *);
+Audio audio(Parameters, Variables *, Variables *);
