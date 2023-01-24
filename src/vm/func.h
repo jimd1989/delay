@@ -38,6 +38,7 @@ typedef enum VmFunc {
   VM_VAR_TAPE_LENGTH  = 'l',
   VM_VAR_CHAN         = 'n',
   VM_VAR_PAN          = 'p',
+  VM_VAR_PHASE        = 'P',
   VM_VAR_RANDOM       = 'r',
   VM_VAR_STACK_SIZE   = 's',
   VM_VAR_DELAY_TIME   = 't',

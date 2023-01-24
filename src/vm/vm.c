@@ -27,5 +27,6 @@ Vm vm(Variables *v) {
   vm.programOld = &vm.programB;
   vm.interpreter = interpreter(v, vm.program);
   vm.compiler = compiler(vm.programOld);
+  setVmProgram(&vm, COMPILER_DEFAULT_PROG);
   return vm;
 }

@@ -12,21 +12,23 @@
 #include "sndio.h"
 
 typedef struct Audio {
+  uint8_t               * buffer;
+  float                 * l;
+  float                 * r;
+  Variables             * lVar;
+  Variables             * rVar;
   size_t                  bytesRead;
   InterpolatedFloat       lRecordingVol;
   InterpolatedFloat       rRecordingVol;
   Delay                   delay;
-  uint8_t               * buffer;
-  float                   l;
-  float                   r;
   AudioSettings           settings;
   Sndio                   sndio;
-  Vm                      vmL;
-  Vm                      vmR;
+  Vm                      lVm;
+  Vm                      rVm;
 } Audio;
 
 void startAudio(Audio *);
 void playAudio(Audio *);
 void stopAudio(Audio *);
 void setRecordingVol(Audio *, bool, float);
-Audio audio(Parameters, Variables *, Variables *);
+Audio audio(Parameters, Variables *, Variables *, float *, float *);

@@ -23,4 +23,5 @@ typedef struct Variables {
   NewInterpolatedFloat    wetness;
 } Variables;
 
+void inc(Variables *);
 Variables variables(Parameters, AudioSettings, float *, float *);

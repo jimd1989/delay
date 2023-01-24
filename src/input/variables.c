@@ -3,6 +3,17 @@
 #include "parameters.h"
 #include "variables.h"
 
+void inc(Variables *v) {
+  incFloat(&v->a);
+  incFloat(&v->b);
+  incFloat(&v->c);
+  incFloat(&v->feedback);
+  incFloat(&v->pan);
+  incFloat(&v->delayTime);
+  incFloat(&v->volume);
+  incFloat(&v->wetness);
+}
+
 Variables variables(Parameters p, AudioSettings a, float *x, float *y) {
   Variables v = {0};
   v.chan = a.chan;

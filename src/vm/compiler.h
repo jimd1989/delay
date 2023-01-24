@@ -6,6 +6,7 @@
 #include "stack.h"
 
 #define COMPILER_DELIMETER '\''
+#define COMPILER_DEFAULT_PROG "'xv*'"
 
 typedef struct Compiler {
   char          * remaining;

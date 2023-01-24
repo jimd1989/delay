@@ -179,6 +179,9 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
     case VM_VAR_PAN:
       iPan(i);
       break;
+    case VM_VAR_PHASE:
+      /* Need a phase array */
+      break;
     case VM_VAR_RANDOM:
       break;
     case VM_VAR_STACK_SIZE:
