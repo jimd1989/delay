@@ -26,7 +26,6 @@ static void eval(Repl *r, Audio *a, Parsing *p) {
       break;
     case F_FEEDBACK:
       SET_BOUND_FLOAT(r, p, feedback, 1.0f); 
-      setFeedback(d, p->right, parseBoundFloat(p->args, 1.0f));
       break;
     case F_PAN:
       SET_BOUND_FLOAT(r, p, pan, 1.0f); 

@@ -64,4 +64,5 @@ void testInterpreter(void) {
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
+  killInterpreter(&i);
 }

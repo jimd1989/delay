@@ -11,6 +11,10 @@ void writeArray(Array *a, size_t n, float f) {
   a->data[n % a->size] = f;
 }
 
+void killArray(Array *a) {
+  free(a->data);
+}
+
 Array array(size_t size) {
   Array a = {0};
   a.size = size;

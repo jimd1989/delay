@@ -18,6 +18,7 @@ Variables variables(Parameters p, AudioSettings a, float *x, float *y) {
   Variables v = {0};
   v.chan = a.chan;
   v.heapSize = p.heapSize;
+  v.phaseSize = p.phaseSize;
   v.maxDelay = p.maxDelay;
   v.rate = a.rate;
   v.currentSample = x;

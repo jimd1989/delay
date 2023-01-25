@@ -48,6 +48,8 @@ static void iAbs(Stack *s);
 static void iHeap(Interpreter *i);
 static void iTape(Interpreter *i);
 static void iChan(Interpreter *i);
+static void iPhaseSize(Interpreter *i);
+static void iPhase(Interpreter *i);
 static void iRate(Interpreter *i);
 static void iTapeLength(Interpreter *i);
 static void iStackSize(Interpreter *i);
@@ -176,11 +178,14 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
     case VM_VAR_CHAN:
       iChan(i);
       break;
+    case VM_VAR_PHASE_SIZE:
+      iPhaseSize(i);
+      break;
     case VM_VAR_PAN:
       iPan(i);
       break;
     case VM_VAR_PHASE:
-      /* Need a phase array */
+      iPhase(i);
       break;
     case VM_VAR_RANDOM:
       break;
@@ -271,6 +276,14 @@ static void iChan(Interpreter *i) {
   pushStack(&i->stack, number(i->environment.chan));
 }
 
+static void iPhase(Interpreter *i) {
+  pushStack(&i->stack, address(&i->phase));
+}
+
+static void iPhaseSize(Interpreter *i) {
+  pushStack(&i->stack, number(i->phase.size));
+}
+
 static void iRate(Interpreter *i) {
   pushStack(&i->stack, number(i->environment.rate));
 }
@@ -355,12 +368,18 @@ void setInterpreterProgram(Interpreter *i, Program *p) {
   i->program = p;
 }
 
+void killInterpreter(Interpreter *i) {
+  killArray(&i->heap);
+  killArray(&i->tape);
+}
+
 Interpreter interpreter(Variables *v, Program *p) {
   Interpreter i = {0};
   i.program = p;
   i.environment = environment(v);
   i.stack = stack();
   i.heap = array(v->heapSize);
+  i.phase = array(v->phaseSize);
   i.tape = array((size_t)(v->rate * v->maxDelay));
   return i;
 }

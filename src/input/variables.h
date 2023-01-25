@@ -8,6 +8,7 @@
 
 typedef struct Variables {
   size_t                  heapSize;
+  size_t                  phaseSize;
   float                   chan;
   float                   maxDelay;
   float                   rate;

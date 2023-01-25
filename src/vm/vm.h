@@ -15,4 +15,5 @@ typedef struct Vm {
 } Vm;
 
 void setVmProgram(Vm *, char *);
+void killVm(Vm *);
 Vm vm(Variables *);

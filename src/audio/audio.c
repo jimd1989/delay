@@ -76,6 +76,8 @@ void stopAudio(Audio *a) {
   sio_close(a->sndio.rec.handle);
   killDelay(a->delay);
   free(a->buffer);
+  killVm(&a->lVm);
+  killVm(&a->rVm);
 }
 
 void setRecordingVol(Audio *a, bool right, float f) {

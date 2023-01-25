@@ -19,6 +19,10 @@ void setVmProgram(Vm *v, char *s) {
   /* Need failed compilation input cleanup */
 }
 
+void killVm(Vm *v) {
+  killInterpreter(&v->interpreter);
+}
+
 Vm vm(Variables *v) {
   Vm vm = {0};
   vm.programA = program();

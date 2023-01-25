@@ -11,9 +11,11 @@ typedef struct Interpreter {
   Environment     environment;
   Stack           stack;
   Array           heap;
+  Array           phase;
   Array           tape;
 } Interpreter;
 
 float interpret(Interpreter *);
 void setInterpreterProgram(Interpreter *, Program *);
+void killInterpreter(Interpreter *);
 Interpreter interpreter(Variables *, Program *);
