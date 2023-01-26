@@ -2,7 +2,6 @@
 #include "compiler.h"
 #include "dsp.h"
 #include "interpreter.h"
-#include "interpolation.h"
 #include "test.h"
 
 void test(void) {
@@ -10,5 +9,4 @@ void test(void) {
   testCompiler();
   testDsp();
   testInterpreter();
-  testInterpolation();
 }

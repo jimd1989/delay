@@ -8,7 +8,6 @@
 #include "../input/variables.h"
 #include "../vm/vm.h"
 #include "audio_settings.h"
-#include "delay.h"
 #include "sndio.h"
 
 typedef struct Audio {
@@ -18,9 +17,8 @@ typedef struct Audio {
   Variables             * lVar;
   Variables             * rVar;
   size_t                  bytesRead;
-  NewInterpolatedFloat    lRecordingVol;
-  NewInterpolatedFloat    rRecordingVol;
-  Delay                   delay;
+  InterpolatedFloat       lRecordingVol;
+  InterpolatedFloat       rRecordingVol;
   AudioSettings           settings;
   Sndio                   sndio;
   Vm                      lVm;

@@ -10,7 +10,6 @@
 #include "../vm/vm.h"
 #include "audio.h"
 #include "audio_settings.h"
-#include "delay.h"
 #include "dsp.h"
 #include "sndio.h"
 
@@ -55,11 +54,15 @@ void playAudio(Audio *a) {
     *a->r = FROM_I16(sampleBuffer[n+1]) * a->rRecordingVol.product;
     l = interpret(&a->lVm.interpreter);
     r = interpret(&a->rVm.interpreter);
+/*
     mixDelay(&a->delay, l, r);
     s = fromFloat(a->delay.lSample);
+*/
     byteBuffer[m]   = (uint8_t)(s & 255);
     byteBuffer[m+1] = (uint8_t)(s >> 8);
+/*
     s = fromFloat(a->delay.rSample);
+*/
     byteBuffer[m+2] = (uint8_t)(s & 255);
     byteBuffer[m+3] = (uint8_t)(s >> 8);
   }
@@ -76,7 +79,6 @@ void stopAudio(Audio *a) {
     errx(-1, "couldn't stop sndio recording");
   }
   sio_close(a->sndio.rec.handle);
-  killDelay(a->delay);
   free(a->buffer);
   killVm(&a->lVm);
   killVm(&a->rVm);
@@ -89,7 +91,6 @@ Audio audio(Parameters p, Variables *vl, Variables *vr, float *l, float *r) {
   a.sndio = sndio();
   a.settings = audioSettings(a.sndio.play.parameters);
   a.buffer = calloc(a.settings.bufSizeBytes, 1);
-  a.delay = delay(a.settings, p.maxDelay);
   a.bytesRead = a.settings.bufSizeFrames * a.settings.chan * sizeof(int16_t);
   a.l = l;
   a.r = r;

@@ -14,14 +14,14 @@ typedef struct Variables {
   float                   rate;
   float                 * currentSample;
   float                 * otherSample;
-  NewInterpolatedFloat    a;
-  NewInterpolatedFloat    b;
-  NewInterpolatedFloat    c;
-  NewInterpolatedFloat    feedback;
-  NewInterpolatedFloat    pan;
-  NewInterpolatedFloat    delayTime;
-  NewInterpolatedFloat    volume;
-  NewInterpolatedFloat    wetness;
+  InterpolatedFloat       a;
+  InterpolatedFloat       b;
+  InterpolatedFloat       c;
+  InterpolatedFloat       feedback;
+  InterpolatedFloat       pan;
+  InterpolatedFloat       delayTime;
+  InterpolatedFloat       volume;
+  InterpolatedFloat       wetness;
 } Variables;
 
 void inc(Variables *);
