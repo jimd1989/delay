@@ -9,20 +9,29 @@
 #include "repl.h"
 #include "variables.h"
 
+#define SET_FLOAT(R, P, X, F) (void)(\
+    P->right ?\
+      setInterpolatedFloat(&R->rVariables.X, F) :\
+      setInterpolatedFloat(&R->lVariables.X, F))
+
 #define SET_BOUND_FLOAT(R, P, X, F) (void)(\
     P->right ?\
       setInterpolatedFloat(&R->rVariables.X, parseBoundFloat(P->args, F)) :\
       setInterpolatedFloat(&R->lVariables.X, parseBoundFloat(P->args, F)))
 
-static void eval(Repl *, Audio *, Parsing *);
-static void readLine(Repl *, Audio *, Parsing);
+#define SET_AUDIO_FLOAT(R, P, X, F) (void)(\
+    P->right ?\
+      setInterpolatedFloat(&R->audio.l##X, parseBoundFloat(P->args, F)) :\
+      setInterpolatedFloat(&R->audio.r##X, parseBoundFloat(P->args, F)))
 
-static void eval(Repl *r, Audio *a, Parsing *p) {
-  AudioSettings as = a->settings;
-  Delay *d = &a->delay;
+static void eval(Repl *, Parsing *);
+static void readLine(Repl *, Parsing);
+
+static void eval(Repl *r, Parsing *p) {
+  AudioSettings as = r->audio.settings;
   switch (p->func) {
     case F_DELAY_TIME:
-      setDelayTime(d, as.rate, p->right, parseFloat(p->args));
+      SET_FLOAT(r, p, delayTime, (float)as.rate * parseFloat(p->args));
       break;
     case F_FEEDBACK:
       SET_BOUND_FLOAT(r, p, feedback, 1.0f); 
@@ -37,7 +46,7 @@ static void eval(Repl *r, Audio *a, Parsing *p) {
       SET_BOUND_FLOAT(r, p, volume, 1.0f);
       break;
     case F_RECORD_VOL:
-      setRecordingVol(a, p->right, parseBoundFloat(p->args, 1.0f));
+      SET_AUDIO_FLOAT(r, p, RecordingVol, 1.0f);
       break;
     case F_DELAY_FUNC:
       warnx("delay func not yet implemented");
@@ -50,7 +59,7 @@ static void eval(Repl *r, Audio *a, Parsing *p) {
   }
 }
 
-static void readLine(Repl *r, Audio *a, Parsing p) {
+static void readLine(Repl *r, Parsing p) {
   size_t n = 0;
   n = read(STDIN_FILENO, p.remaining, REPL_LINE_SIZE);
   if (*p.remaining == '\n' || n < 1) {
@@ -58,7 +67,7 @@ static void readLine(Repl *r, Audio *a, Parsing p) {
   }
   while (!isEol(&p)) {
     parseFunc(&p);
-    eval(r, a, &p);
+    eval(r, &p);
   }
 }
 
@@ -74,7 +83,7 @@ void repl(Parameters p) {
   warnx("Delay started; input commands. ^c exits.");
   while (poll(pfds, 1, 0) != -1) {
     if (pfds[0].revents & POLLIN) {
-      readLine(&r, &r.audio, parsing(r.line));
+      readLine(&r, parsing(r.line));
     }
     playAudio(&r.audio);
   }

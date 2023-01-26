@@ -47,10 +47,12 @@ void playAudio(Audio *a) {
   uint8_t *byteBuffer = a->buffer;
   int16_t *sampleBuffer = (int16_t *)a->buffer;
   for (; m < a->bytesRead ; n += 2, m += 4) {
+    incFloat(&a->lRecordingVol);
+    incFloat(&a->rRecordingVol);
     inc(a->lVar);
     inc(a->rVar);
-    *a->l = FROM_I16(sampleBuffer[n])   * getFloat(&a->lRecordingVol);
-    *a->r = FROM_I16(sampleBuffer[n+1]) * getFloat(&a->rRecordingVol);
+    *a->l = FROM_I16(sampleBuffer[n])   * a->lRecordingVol.product;
+    *a->r = FROM_I16(sampleBuffer[n+1]) * a->rRecordingVol.product;
     l = interpret(&a->lVm.interpreter);
     r = interpret(&a->rVm.interpreter);
     mixDelay(&a->delay, l, r);
@@ -80,18 +82,10 @@ void stopAudio(Audio *a) {
   killVm(&a->rVm);
 }
 
-void setRecordingVol(Audio *a, bool right, float f) {
-  if (right) {
-    setFloat(&a->rRecordingVol, f);
-  } else {
-    setFloat(&a->lRecordingVol, f);
-  }
-}
-
 Audio audio(Parameters p, Variables *vl, Variables *vr, float *l, float *r) {
   Audio a = {0};
-  setFloat(&a.lRecordingVol, 1.0f);
-  setFloat(&a.rRecordingVol, 1.0f);
+  a.lRecordingVol = interpolatedFloat(p.interpolationFrames);
+  a.rRecordingVol = interpolatedFloat(p.interpolationFrames);
   a.sndio = sndio();
   a.settings = audioSettings(a.sndio.play.parameters);
   a.buffer = calloc(a.settings.bufSizeBytes, 1);
