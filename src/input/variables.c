@@ -30,6 +30,7 @@ Variables variables(Parameters p, AudioSettings a, float *x, float *y) {
   v.pan = interpolatedFloat(p.interpolationFrames);
   v.delayTime = interpolatedFloat(p.interpolationFrames);
   v.volume = interpolatedFloat(p.interpolationFrames);
+  setInterpolatedFloat(&v.volume, 0.1f);
   v.wetness = interpolatedFloat(p.interpolationFrames);
   return v;
 }

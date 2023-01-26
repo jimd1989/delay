@@ -6,7 +6,9 @@
 #include "stack.h"
 
 #define COMPILER_DELIMETER '\''
-#define COMPILER_DEFAULT_PROG "'xv*\\'"
+#define COMPILER_DEFAULT_PROG "'0P{1+l%3\\0P}T{f*x+~t+T}T{0.5*x0.5*+v*1\\'"
+
+
 
 typedef struct Compiler {
   char          * remaining;

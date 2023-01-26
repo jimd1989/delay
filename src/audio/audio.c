@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "../input/interpolation.h"
 #include "../input/variables.h"
 #include "../vm/interpreter.h"
 #include "../vm/vm.h"
@@ -85,6 +86,8 @@ Audio audio(Parameters p, Variables *vl, Variables *vr, float *l, float *r) {
   Audio a = {0};
   a.lRecordingVol = interpolatedFloat(p.interpolationFrames);
   a.rRecordingVol = interpolatedFloat(p.interpolationFrames);
+  setInterpolatedFloat(&a.lRecordingVol, 1.0f);
+  setInterpolatedFloat(&a.rRecordingVol, 1.0f);
   a.sndio = sndio();
   a.settings = audioSettings(a.sndio.play.parameters);
   a.buffer = calloc(a.settings.bufSizeBytes, 1);

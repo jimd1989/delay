@@ -22,15 +22,15 @@ void testInterpreter(void) {
   v = variables(par, a, NULL, NULL);
   i = interpreter(&v, &p);
   warnx("interpreter");
-  warnx("  'T129 1.0}T1{1\\' = 1.0f");
-  compile(&c, "'T129 1.0}T1{1\\'", false);
+  warnx("  '1.0 129T}1T{1\\' = 1.0f");
+  compile(&c, "'1.0 129T}1T{1\\'", false);
   interpret(&i);
   f = i.l + i.r;
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
-  warnx("  'H100 .5}H101 1.5}H101{H100{-1\\' = 1.0f");
-  compile(&c, "'H100 .5}H101 1.5}H101{H100{-1\\'", false);
+  warnx("  '.5 100H}1.5 101H}101H{100H{-1\\' = 1.0f");
+  compile(&c, "'.5 100H}1.5 101H}101H{100H{-1\\'", false);
   interpret(&i);
   f = i.l + i.r;
   if (f != 1.0f) {

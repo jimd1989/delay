@@ -11,6 +11,8 @@
 #include "program.h"
 #include "stack.h"
 
+#include "err.h"
+
 #define MONAD(N, F) static void N(Stack *s) {\
   float *f = directNumber(s);\
   if (f != NULL) {\
@@ -217,15 +219,15 @@ static void evaluateFunc(Interpreter *i, VmCell x) {
 }
 
 static void iRead(Interpreter *i) {
-  size_t n = (size_t)popStack(&i->stack).data.n;
   Array *a = popStack(&i->stack).data.p;
+  size_t n = (size_t)popStack(&i->stack).data.n;
   pushStack(&i->stack, number(readArray(a, n)));
 }
 
 static void iWrite(Interpreter *i) {
-  float f = popStack(&i->stack).data.n;
-  size_t n = (size_t)popStack(&i->stack).data.n;
   Array *a = popStack(&i->stack).data.p;
+  size_t n = (size_t)popStack(&i->stack).data.n;
+  float f = popStack(&i->stack).data.n;
   writeArray(a, n, f);
 }
 
