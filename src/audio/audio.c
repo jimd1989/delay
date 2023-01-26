@@ -52,17 +52,14 @@ void playAudio(Audio *a) {
     inc(a->rVar);
     *a->l = FROM_I16(sampleBuffer[n])   * a->lRecordingVol.product;
     *a->r = FROM_I16(sampleBuffer[n+1]) * a->rRecordingVol.product;
-    l = interpret(&a->lVm.interpreter);
-    r = interpret(&a->rVm.interpreter);
-/*
-    mixDelay(&a->delay, l, r);
-    s = fromFloat(a->delay.lSample);
-*/
+    interpret(&a->lVm.interpreter);
+    interpret(&a->rVm.interpreter);
+    l = a->lVm.interpreter.l + a->rVm.interpreter.l;
+    r = a->lVm.interpreter.r + a->rVm.interpreter.r;
+    s = fromFloat(l);
     byteBuffer[m]   = (uint8_t)(s & 255);
     byteBuffer[m+1] = (uint8_t)(s >> 8);
-/*
-    s = fromFloat(a->delay.rSample);
-*/
+    s = fromFloat(r);
     byteBuffer[m+2] = (uint8_t)(s & 255);
     byteBuffer[m+3] = (uint8_t)(s >> 8);
   }

@@ -10,6 +10,8 @@
 #include "audio_settings.h"
 #include "sndio.h"
 
+/* Need AudioChannel Struct */ 
+
 typedef struct Audio {
   uint8_t               * buffer;
   float                 * l;

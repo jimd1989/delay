@@ -1,5 +1,3 @@
-#include <err.h>
-
 #include "cell.h"
 #include "stack.h"
 
@@ -8,13 +6,12 @@ float *directNumber(Stack *s) {
 }
 
 VmCell popStack(Stack *s) {
-  VmCell empty = {0};
-  return s->head > 0 ? s->data[--s->head] : empty;
+  return s->head > 0 ? s->data[--s->head] : number(0.0f);
 }
 
 void pushStack(Stack *s, VmCell c) {
   if (s->head >= s->size) {
-    errx(-1, "stack overflow: %u", (unsigned int)s->size);
+    return;
   } else {
     s->data[s->head++] = c;
   }

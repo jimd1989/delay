@@ -22,45 +22,52 @@ void testInterpreter(void) {
   v = variables(par, a, NULL, NULL);
   i = interpreter(&v, &p);
   warnx("interpreter");
-  warnx("  'T129 1.0}T1{' = 1.0f");
-  compile(&c, "'T129 1.0}T1{'", false);
-  f = interpret(&i);
+  warnx("  'T129 1.0}T1{1\\' = 1.0f");
+  compile(&c, "'T129 1.0}T1{1\\'", false);
+  interpret(&i);
+  f = i.l + i.r;
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
-  warnx("  'H100 .5}H101 1.5}H101{H100{-' = 1.0f");
-  compile(&c, "'H100 .5}H101 1.5}H101{H100{-'", false);
-  f = interpret(&i);
+  warnx("  'H100 .5}H101 1.5}H101{H100{-1\\' = 1.0f");
+  compile(&c, "'H100 .5}H101 1.5}H101{H100{-1\\'", false);
+  interpret(&i);
+  f = i.l + i.r;
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
-  warnx("  ' 8.5 _.5+2^1+3%%2*2/3-`' = 1.0f");
-  compile(&c, "' 8.5 _.5+2^1+3%2*2/3-`'", false);
-  f = interpret(&i);
+  warnx("  ' 8.5 _.5+2^1+3%%2*2/3-`1\\' = 1.0f");
+  compile(&c, "' 8.5 _.5+2^1+3%2*2/3-`1\\'", false);
+  interpret(&i);
+  f = i.l + i.r;
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
-  warnx("  '1 2 3 4 2#+2\\**27/' = 1.0f");
-  compile(&c, "'1 2 3 4 2#+2\\**27/'", false);
-  f = interpret(&i);
+  warnx("  '1 2 3 4 2#+2\\**27/1\\' = 1.0f");
+  compile(&c, "'1 2 3 4 2#+2\\**27/1\\'", false);
+  interpret(&i);
+  f = i.l + i.r;
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
-  warnx("  '9 10~-' = 1.0f");
-  compile(&c, "'9 10~-'", false);
-  f = interpret(&i);
+  warnx("  '9 10~-1\\' = 1.0f");
+  compile(&c, "'9 10~-1\\'", false);
+  interpret(&i);
+  f = i.l + i.r;
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
-  warnx("  '1 2@[1@|4@&3@^2@]' = 1.0f");
-  compile(&c, "'1 2@[1@|4@&3@^2@]'", false);
-  f = interpret(&i);
+  warnx("  '1 2@[1@|4@&3@^2@]1\\' = 1.0f");
+  compile(&c, "'1 2@[1@|4@&3@^2@]1\\'", false);
+  interpret(&i);
+  f = i.l + i.r;
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }
-  warnx("  'z128/' = 1.0f");
-  compile(&c, "'z128/'", false);
-  f = interpret(&i);
+  warnx("  'z128/1\\' = 1.0f");
+  compile(&c, "'z128/1\\'", false);
+  interpret(&i);
+  f = i.l + i.r;
   if (f != 1.0f) {
     warnx("     ! expected 1.0f; got %f", f);
   }

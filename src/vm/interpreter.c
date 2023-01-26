@@ -347,21 +347,22 @@ DYAD(iXor, x, y, (int64_t)x ^ (int64_t)y)
 DYAD(iShiftL, x, y, (int64_t)x << (int64_t)y)
 DYAD(iShiftR, x, y, (int64_t)x >> (int64_t)y)
 
-float interpret(Interpreter *i) {
+void interpret(Interpreter *i) {
   VmCell *x = NULL;
   resetProgram(i->program);
   x = nextProgramCell(i->program, true);
   if (x == NULL) {
-    return 0.0f;
+    return;
   }
   while (!(x->type == VM_CELL_FUNC && x->data.f == VM_END)) {
     evaluate(i, *x);
     x = nextProgramCell(i->program, true);
     if (x == NULL) {
-      return 0.0f;
+      return;
     }
   }
-  return popStack(&i->stack).data.n;
+  i->r = popStack(&i->stack).data.n * 0.5f;
+  i->l = popStack(&i->stack).data.n * 0.5f;
 }
 
 void setInterpreterProgram(Interpreter *i, Program *p) {

@@ -7,6 +7,8 @@
 #include "stack.h"
 
 typedef struct Interpreter {
+  float           l;
+  float           r;
   Program       * program;
   Environment     environment;
   Stack           stack;
@@ -15,7 +17,7 @@ typedef struct Interpreter {
   Array           tape;
 } Interpreter;
 
-float interpret(Interpreter *);
+void interpret(Interpreter *);
 void setInterpreterProgram(Interpreter *, Program *);
 void killInterpreter(Interpreter *);
 Interpreter interpreter(Variables *, Program *);
