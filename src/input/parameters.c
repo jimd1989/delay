@@ -5,6 +5,7 @@ Parameters parameters(void) {
   p.heapSize = PARAMETERS_HEAP_SIZE;
   p.interpolationFrames = PARAMETERS_INTERPOLATION_FRAMES;
   p.phaseSize = PARAMETERS_PHASE_SIZE;
+  p.sampleRate = PARAMETERS_SAMPLE_RATE;
   p.maxDelay = PARAMETERS_MAX_DELAY;
   return p;
 }

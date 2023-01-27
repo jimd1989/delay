@@ -88,7 +88,7 @@ Audio audio(Parameters p, Variables *vl, Variables *vr, float *l, float *r) {
   a.rRecordingVol = interpolatedFloat(p.interpolationFrames);
   setInterpolatedFloat(&a.lRecordingVol, 1.0f);
   setInterpolatedFloat(&a.rRecordingVol, 1.0f);
-  a.sndio = sndio();
+  a.sndio = sndio(p.sampleRate);
   a.settings = audioSettings(a.sndio.play.parameters);
   a.buffer = calloc(a.settings.bufSizeBytes, 1);
   a.bytesRead = a.settings.bufSizeFrames * a.settings.chan * sizeof(int16_t);

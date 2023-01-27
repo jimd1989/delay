@@ -3,6 +3,8 @@
 #include "../audio/dsp.h"
 #include "interpolation.h"
 
+#define INTERPOLATE(O, N, P) (((1.0f - P) * O) + ((1.0f - (1.0f - P)) * N))
+
 void setInterpolatedFloat(InterpolatedFloat *i, float f) {
   i->phase = 0.0f;
   i->old = i->new;
@@ -14,10 +16,8 @@ void setInc(InterpolatedFloat *i, size_t lenFrames) {
 }
 
 void incFloat(InterpolatedFloat *i) {
-  if (i->phase < 1.0f) {
-    i->product = INTERPOLATE(i->old, i->new, i->phase);
-    i->phase = TRUNC(i->phase + i->inc, 1.0f);
-  }
+  i->phase = TRUNC(i->phase + i->inc, 1.0f);
+  i->product = INTERPOLATE(i->old, i->new, i->phase);
 }
 
 InterpolatedFloat interpolatedFloat(size_t lenFrames) {
