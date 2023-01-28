@@ -3,16 +3,12 @@
 #include <unistd.h>
 
 #include "../audio/audio.h"
+#include "filter.h"
 #include "interpolation.h"
 #include "parameters.h"
 #include "parse.h"
 #include "repl.h"
 #include "variables.h"
-
-#define SET_FLOAT(R, P, X, F) (void)(\
-    P->right ?\
-      setInterpolatedFloat(&R->rVariables.X, F) :\
-      setInterpolatedFloat(&R->lVariables.X, F))
 
 #define SET_BOUND_FLOAT(R, P, X, F) (void)(\
     P->right ?\
@@ -28,10 +24,13 @@ static void eval(Repl *, Parsing *);
 static void readLine(Repl *, Parsing);
 
 static void eval(Repl *r, Parsing *p) {
-  AudioSettings as = r->audio.settings;
   switch (p->func) {
     case F_DELAY_TIME:
-      SET_FLOAT(r, p, delayTime, (float)as.rate * parseFloat(p->args));
+      if (p->right) {
+        setFilter(&r->rVariables.delayTime, parseFloat(p->args));
+      } else {
+        setFilter(&r->lVariables.delayTime, parseFloat(p->args));
+      }
       break;
     case F_FEEDBACK:
       SET_BOUND_FLOAT(r, p, feedback, 1.0f); 

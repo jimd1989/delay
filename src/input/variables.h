@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include "../audio/audio_settings.h"
+#include "filter.h"
 #include "interpolation.h"
 #include "parameters.h"
 
@@ -19,9 +20,9 @@ typedef struct Variables {
   InterpolatedFloat       c;
   InterpolatedFloat       feedback;
   InterpolatedFloat       pan;
-  InterpolatedFloat       delayTime;
   InterpolatedFloat       volume;
   InterpolatedFloat       wetness;
+  Filter                  delayTime;
 } Variables;
 
 void inc(Variables *);

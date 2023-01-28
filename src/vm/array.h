@@ -7,7 +7,7 @@ typedef struct Array {
   float         * data;
 } Array;
 
-float readArray(Array *, size_t);
+float readArray(Array *, float);
 void writeArray(Array *, size_t, float);
 void killArray(Array *);
 Array array(size_t);

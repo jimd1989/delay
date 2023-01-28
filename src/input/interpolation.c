@@ -3,8 +3,6 @@
 #include "../audio/dsp.h"
 #include "interpolation.h"
 
-#define INTERPOLATE(O, N, P) (((1.0f - P) * O) + ((1.0f - (1.0f - P)) * N))
-
 void setInterpolatedFloat(InterpolatedFloat *i, float f) {
   i->phase = 0.0f;
   i->old = i->new;

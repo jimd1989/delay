@@ -2,6 +2,8 @@
 
 #include <unistd.h>
 
+#define INTERPOLATE(O, N, P) (((1.0f - P) * O) + ((1.0f - (1.0f - P)) * N))
+
 typedef struct InterpolatedFloat {
   float inc;
   float phase;

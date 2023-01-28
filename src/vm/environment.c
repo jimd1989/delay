@@ -10,10 +10,10 @@ Environment environment(Variables *v) {
   e.c = &v->c.product;
   e.feedback = &v->feedback.product;
   e.pan = &v->pan.product;
-  e.delayTime = &v->delayTime.product;
   e.volume = &v->volume.product;
   e.wetness = &v->wetness.product;
   e.currentSample = v->currentSample;
   e.otherSample = v->otherSample;
+  e.delayTime = &v->delayTime.z;
   return e;
 }
