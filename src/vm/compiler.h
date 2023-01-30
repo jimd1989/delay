@@ -10,7 +10,7 @@
 #define COMPILER_DEFAULT_PROGX "'0P{2\\lt-+T{~x~T}~1+%l0P}v*1\\'"
 #define COMPILER_DEFAULT_PROGY "'0P{lt-+T{x0P{T}0P{1+l%0P}f*v*1\\'"
 
-#define COMPILER_DEFAULT_PROG "'0P{1+l%3\\0P}T{f*x+~t+T}T{0.5*x0.5*+v*1\\'"
+#define COMPILER_DEFAULT_PROG "'0P{1+l%4\\0P}T{f*x+~t+T}T{~0~T}0.5*x0.5*+v*1\\'"
 
 typedef struct Compiler {
   char          * remaining;

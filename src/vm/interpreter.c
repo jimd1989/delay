@@ -224,7 +224,7 @@ static void iRead(Interpreter *i) {
 
 static void iWrite(Interpreter *i) {
   Array *a = popStack(&i->stack).data.p;
-  size_t n = (size_t)popStack(&i->stack).data.n;
+  float n = popStack(&i->stack).data.n;
   float f = popStack(&i->stack).data.n;
   writeArray(a, n, f);
 }
@@ -379,8 +379,8 @@ Interpreter interpreter(Variables *v, Program *p) {
   i.program = p;
   i.environment = environment(v);
   i.stack = stack();
-  i.heap = array(v->heapSize);
-  i.phase = array(v->phaseSize);
-  i.tape = array((size_t)(v->rate * v->maxDelay));
+  i.heap = array(v->heapSize, false);
+  i.phase = array(v->phaseSize, false);
+  i.tape = array((size_t)(v->rate * v->maxDelay), true);
   return i;
 }
